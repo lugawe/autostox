@@ -1,2 +1,3 @@
 # autostox
-Autostox
+
+Automatic stocks
