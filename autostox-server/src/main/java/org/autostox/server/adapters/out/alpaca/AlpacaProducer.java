@@ -6,13 +6,15 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Singleton;
 
+import org.autostox.server.adapters.out.alpaca.config.AlpacaConfig;
+
 import markets.alpaca.client.AlpacaClientFactory;
 import markets.alpaca.client.AlpacaCredentials;
 import markets.alpaca.client.openapi.data.api.StockApi;
 import markets.alpaca.client.openapi.data.model.StockHistoricalFeed;
 import markets.alpaca.client.openapi.data.model.StockLatestFeed;
+import markets.alpaca.client.openapi.trading.api.AssetsApi;
 import markets.alpaca.client.ws.StockSource;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
 public class AlpacaProducer {
@@ -21,10 +23,14 @@ public class AlpacaProducer {
 
     @Produces
     @Singleton
-    public AlpacaCredentials produceCredentials(
-            @ConfigProperty(name = "alpaca.api-key-id") String apiKeyId,
-            @ConfigProperty(name = "alpaca.api-secret-key") String apiSecretKey) {
-        return new AlpacaCredentials(apiKeyId, apiSecretKey);
+    public AlpacaCredentials produceCredentials(AlpacaConfig config) {
+        return new AlpacaCredentials(config.apiKeyId(), config.apiSecretKey());
+    }
+
+    @Produces
+    @Singleton
+    public AssetsApi produceAssetsApi(AlpacaCredentials credentials, AlpacaConfig config) {
+        return new AssetsApi(AlpacaClientFactory.tradingClient(credentials, config.tradingEnvironment()));
     }
 
     @Produces
@@ -35,19 +41,19 @@ public class AlpacaProducer {
 
     @Produces
     @Singleton
-    public StockHistoricalFeed produceHistoricalFeed(@ConfigProperty(name = "alpaca.feed") String feed) {
-        return StockHistoricalFeed.fromValue(feed);
+    public StockHistoricalFeed produceHistoricalFeed(AlpacaConfig config) {
+        return StockHistoricalFeed.fromValue(config.feed());
     }
 
     @Produces
     @Singleton
-    public StockLatestFeed produceLatestFeed(@ConfigProperty(name = "alpaca.feed") String feed) {
-        return StockLatestFeed.fromValue(feed);
+    public StockLatestFeed produceLatestFeed(AlpacaConfig config) {
+        return StockLatestFeed.fromValue(config.feed());
     }
 
     @Produces
     @Singleton
-    public StockSource produceStockSource(@ConfigProperty(name = "alpaca.feed") String feed) {
-        return StockSource.valueOf(feed.toUpperCase(Locale.ROOT));
+    public StockSource produceStockSource(AlpacaConfig config) {
+        return StockSource.valueOf(config.feed().toUpperCase(Locale.ROOT));
     }
 }
