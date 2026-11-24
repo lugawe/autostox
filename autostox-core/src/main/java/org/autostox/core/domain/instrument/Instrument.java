@@ -5,7 +5,7 @@ import org.autostox.core.domain.money.Currency;
 /**
  * A tradable financial instrument.
  */
-public sealed interface Instrument permits Stock, Etf {
+public sealed interface Instrument permits Asset, Etf, Stock {
 
     Isin isin();
 
