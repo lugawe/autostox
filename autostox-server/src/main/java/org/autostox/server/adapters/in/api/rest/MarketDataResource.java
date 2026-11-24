@@ -1,4 +1,4 @@
-package org.autostox.server.adapters.in.api.rest.marketdata;
+package org.autostox.server.adapters.in.api.rest;
 
 import java.time.LocalDate;
 

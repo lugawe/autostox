@@ -1,4 +1,4 @@
-package org.autostox.server.adapters.in.api.rest.instrument;
+package org.autostox.server.adapters.in.api.rest;
 
 import java.util.List;
 

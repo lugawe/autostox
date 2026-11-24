@@ -1,4 +1,4 @@
-package org.autostox.server.adapters.in.api.mcp.instrument;
+package org.autostox.server.adapters.in.api.mcp;
 
 import java.util.List;
 

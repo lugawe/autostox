@@ -1,4 +1,4 @@
-package org.autostox.server.adapters.in.api.rest.money;
+package org.autostox.server.adapters.in.api.rest;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;

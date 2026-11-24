@@ -1,4 +1,4 @@
-package org.autostox.server.adapters.in.api.mcp.money;
+package org.autostox.server.adapters.in.api.mcp;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;

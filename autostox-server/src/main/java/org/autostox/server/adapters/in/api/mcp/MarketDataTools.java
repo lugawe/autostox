@@ -1,4 +1,4 @@
-package org.autostox.server.adapters.in.api.mcp.marketdata;
+package org.autostox.server.adapters.in.api.mcp;
 
 import java.time.LocalDate;
 
