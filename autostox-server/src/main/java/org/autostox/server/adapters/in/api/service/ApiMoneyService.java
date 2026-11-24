@@ -1,4 +1,4 @@
-package org.autostox.server.adapters.in.api.mcp.money.service;
+package org.autostox.server.adapters.in.api.service;
 
 import java.math.BigDecimal;
 
@@ -12,13 +12,13 @@ import org.autostox.server.adapters.in.api.json.money.JsonCurrency;
 import org.autostox.server.adapters.in.api.json.money.JsonExchangeRate;
 
 @ApplicationScoped
-public class McpMoneyService {
+public class ApiMoneyService {
 
     private final JsonConverter jsonConverter;
     private final ExchangeRateService exchangeRateService;
 
     @Inject
-    public McpMoneyService(JsonConverter jsonConverter, ExchangeRateService exchangeRateService) {
+    public ApiMoneyService(JsonConverter jsonConverter, ExchangeRateService exchangeRateService) {
         this.jsonConverter = jsonConverter;
         this.exchangeRateService = exchangeRateService;
     }

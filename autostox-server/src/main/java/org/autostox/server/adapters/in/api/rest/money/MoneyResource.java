@@ -6,7 +6,7 @@ import jakarta.ws.rs.core.MediaType;
 
 import org.autostox.server.adapters.in.api.json.money.JsonCurrency;
 import org.autostox.server.adapters.in.api.json.money.JsonExchangeRate;
-import org.autostox.server.adapters.in.api.rest.money.service.RestMoneyService;
+import org.autostox.server.adapters.in.api.service.ApiMoneyService;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
 
@@ -16,17 +16,17 @@ import io.smallrye.common.annotation.RunOnVirtualThread;
 @Produces(MediaType.APPLICATION_JSON)
 public class MoneyResource {
 
-    private final RestMoneyService restMoneyService;
+    private final ApiMoneyService apiMoneyService;
 
     @Inject
-    public MoneyResource(RestMoneyService restMoneyService) {
-        this.restMoneyService = restMoneyService;
+    public MoneyResource(ApiMoneyService apiMoneyService) {
+        this.apiMoneyService = apiMoneyService;
     }
 
     @GET
     @Path("/exchange-rates/{from}/{to}")
     public JsonExchangeRate getExchangeRate(@PathParam("from") JsonCurrency from, @PathParam("to") JsonCurrency to) {
 
-        return restMoneyService.getExchangeRate(from, to);
+        return apiMoneyService.getExchangeRate(from, to);
     }
 }

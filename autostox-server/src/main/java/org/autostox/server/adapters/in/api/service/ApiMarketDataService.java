@@ -1,4 +1,4 @@
-package org.autostox.server.adapters.in.api.rest.marketdata.service;
+package org.autostox.server.adapters.in.api.service;
 
 import java.time.LocalDate;
 
@@ -18,13 +18,13 @@ import org.autostox.server.adapters.in.api.json.marketdata.JsonQuote;
 import io.smallrye.mutiny.Multi;
 
 @ApplicationScoped
-public class RestMarketDataService {
+public class ApiMarketDataService {
 
     private final JsonConverter jsonConverter;
     private final MarketDataService marketDataService;
 
     @Inject
-    public RestMarketDataService(JsonConverter jsonConverter, MarketDataService marketDataService) {
+    public ApiMarketDataService(JsonConverter jsonConverter, MarketDataService marketDataService) {
         this.jsonConverter = jsonConverter;
         this.marketDataService = marketDataService;
     }

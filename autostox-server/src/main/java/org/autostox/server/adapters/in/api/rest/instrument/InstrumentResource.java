@@ -7,7 +7,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
 import org.autostox.server.adapters.in.api.json.instrument.JsonInstrument;
-import org.autostox.server.adapters.in.api.rest.instrument.service.RestInstrumentService;
+import org.autostox.server.adapters.in.api.service.ApiInstrumentService;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
 
@@ -17,17 +17,17 @@ import io.smallrye.common.annotation.RunOnVirtualThread;
 @Produces(MediaType.APPLICATION_JSON)
 public class InstrumentResource {
 
-    private final RestInstrumentService restInstrumentService;
+    private final ApiInstrumentService apiInstrumentService;
 
     @Inject
-    public InstrumentResource(RestInstrumentService restInstrumentService) {
-        this.restInstrumentService = restInstrumentService;
+    public InstrumentResource(ApiInstrumentService apiInstrumentService) {
+        this.apiInstrumentService = apiInstrumentService;
     }
 
     @GET
     public List<JsonInstrument> findInstruments(
             @QueryParam("query") String query, @QueryParam("limit") @DefaultValue("20") long limit) {
 
-        return restInstrumentService.findInstruments(query, limit);
+        return apiInstrumentService.findInstruments(query, limit);
     }
 }

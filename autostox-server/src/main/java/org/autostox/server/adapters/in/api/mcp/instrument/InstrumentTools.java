@@ -6,8 +6,8 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 import org.autostox.server.adapters.in.api.json.instrument.JsonInstrument;
-import org.autostox.server.adapters.in.api.mcp.instrument.service.McpInstrumentService;
 import org.autostox.server.adapters.in.api.mcp.interceptor.CoreErrors;
+import org.autostox.server.adapters.in.api.service.ApiInstrumentService;
 
 import io.quarkiverse.mcp.server.Tool;
 import io.quarkiverse.mcp.server.ToolArg;
@@ -16,11 +16,11 @@ import io.quarkiverse.mcp.server.ToolArg;
 @CoreErrors
 public class InstrumentTools {
 
-    private final McpInstrumentService mcpInstrumentService;
+    private final ApiInstrumentService apiInstrumentService;
 
     @Inject
-    public InstrumentTools(McpInstrumentService mcpInstrumentService) {
-        this.mcpInstrumentService = mcpInstrumentService;
+    public InstrumentTools(ApiInstrumentService apiInstrumentService) {
+        this.apiInstrumentService = apiInstrumentService;
     }
 
     @Tool(
@@ -36,6 +36,6 @@ public class InstrumentTools {
             @ToolArg(description = "Ticker symbol or part of the name, e.g. AAPL or Apple") String query,
             @ToolArg(description = "Maximum number of instruments", defaultValue = "20") long limit) {
 
-        return mcpInstrumentService.findInstruments(query, limit);
+        return apiInstrumentService.findInstruments(query, limit);
     }
 }
