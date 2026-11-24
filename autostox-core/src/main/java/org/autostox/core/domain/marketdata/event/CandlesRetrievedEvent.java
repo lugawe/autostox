@@ -5,9 +5,9 @@ import java.util.Objects;
 import java.util.UUID;
 
 import org.autostox.core.domain.event.DomainEvent;
+import org.autostox.core.domain.instrument.Symbol;
 import org.autostox.core.domain.marketdata.CandleQuery;
 import org.autostox.core.domain.marketdata.CandleSeries;
-import org.autostox.core.domain.marketdata.Symbol;
 
 /**
  * Candles of an instrument were retrieved.

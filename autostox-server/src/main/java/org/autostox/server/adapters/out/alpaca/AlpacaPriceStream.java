@@ -3,7 +3,7 @@ package org.autostox.server.adapters.out.alpaca;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.autostox.core.domain.marketdata.Symbol;
+import org.autostox.core.domain.instrument.Symbol;
 
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.operators.multi.processors.BroadcastProcessor;

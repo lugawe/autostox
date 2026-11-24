@@ -5,10 +5,10 @@ import java.time.LocalDate;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import org.autostox.core.domain.instrument.Symbol;
 import org.autostox.core.domain.marketdata.CandleQuery;
 import org.autostox.core.domain.marketdata.CandleSeries;
 import org.autostox.core.domain.marketdata.Quote;
-import org.autostox.core.domain.marketdata.Symbol;
 import org.autostox.core.ports.in.marketdata.MarketDataService;
 import org.autostox.server.adapters.in.api.json.converter.JsonConverter;
 import org.autostox.server.adapters.in.api.json.marketdata.JsonCandleSeries;

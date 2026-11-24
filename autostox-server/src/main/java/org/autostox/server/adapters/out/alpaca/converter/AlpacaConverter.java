@@ -8,11 +8,11 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import org.autostox.core.domain.exception.DomainExceptions;
+import org.autostox.core.domain.instrument.Symbol;
 import org.autostox.core.domain.marketdata.Candle;
 import org.autostox.core.domain.marketdata.CandleSeries;
 import org.autostox.core.domain.marketdata.Interval;
 import org.autostox.core.domain.marketdata.Quote;
-import org.autostox.core.domain.marketdata.Symbol;
 import org.autostox.core.domain.money.Currency;
 
 import markets.alpaca.client.openapi.data.model.StockBar;

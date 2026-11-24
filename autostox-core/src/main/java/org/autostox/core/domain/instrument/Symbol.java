@@ -1,4 +1,4 @@
-package org.autostox.core.domain.marketdata;
+package org.autostox.core.domain.instrument;
 
 import java.util.Locale;
 

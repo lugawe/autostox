@@ -5,10 +5,10 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.Flow;
 
+import org.autostox.core.domain.instrument.Symbol;
 import org.autostox.core.domain.marketdata.CandleQuery;
 import org.autostox.core.domain.marketdata.CandleSeries;
 import org.autostox.core.domain.marketdata.Quote;
-import org.autostox.core.domain.marketdata.Symbol;
 import org.autostox.core.domain.marketdata.event.CandlesRetrievedEvent;
 import org.autostox.core.domain.marketdata.event.QuoteRetrievedEvent;
 import org.autostox.core.domain.marketdata.event.QuoteStreamEndedEvent;

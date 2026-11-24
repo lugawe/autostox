@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.util.Objects;
 import java.util.function.Function;
 
+import org.autostox.core.domain.instrument.Symbol;
 import org.autostox.core.domain.money.Currency;
 
 /**

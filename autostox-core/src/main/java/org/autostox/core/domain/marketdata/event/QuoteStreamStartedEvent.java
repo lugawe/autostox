@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 import org.autostox.core.domain.event.DomainEvent;
-import org.autostox.core.domain.marketdata.Symbol;
+import org.autostox.core.domain.instrument.Symbol;
 
 /**
  * A subscriber started streaming quotes of an instrument.

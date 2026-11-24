@@ -5,8 +5,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 import org.autostox.core.domain.event.DomainEvent;
+import org.autostox.core.domain.instrument.Symbol;
 import org.autostox.core.domain.marketdata.Quote;
-import org.autostox.core.domain.marketdata.Symbol;
 
 /**
  * A quote update was emitted to a quote stream subscriber.

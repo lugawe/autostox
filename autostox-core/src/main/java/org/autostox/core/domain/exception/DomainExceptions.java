@@ -1,7 +1,7 @@
 package org.autostox.core.domain.exception;
 
+import org.autostox.core.domain.instrument.Symbol;
 import org.autostox.core.domain.marketdata.CandleQuery;
-import org.autostox.core.domain.marketdata.Symbol;
 import org.autostox.core.domain.money.Currency;
 
 public final class DomainExceptions {

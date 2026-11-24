@@ -5,10 +5,10 @@ import java.time.OffsetDateTime;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import org.autostox.core.domain.instrument.Symbol;
 import org.autostox.core.domain.marketdata.CandleQuery;
 import org.autostox.core.domain.marketdata.CandleSeries;
 import org.autostox.core.domain.marketdata.Quote;
-import org.autostox.core.domain.marketdata.Symbol;
 import org.autostox.core.ports.out.marketdata.MarketDataProvider;
 import org.autostox.server.adapters.out.alpaca.AlpacaClient;
 
