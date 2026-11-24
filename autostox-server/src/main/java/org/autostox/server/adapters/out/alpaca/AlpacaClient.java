@@ -10,7 +10,9 @@ import jakarta.annotation.PreDestroy;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
+import org.autostox.core.CoreException;
 import org.autostox.core.domain.exception.DomainExceptions;
+import org.autostox.core.domain.instrument.Instrument;
 import org.autostox.core.domain.instrument.Symbol;
 import org.autostox.core.domain.marketdata.CandleQuery;
 import org.autostox.core.domain.marketdata.CandleSeries;
@@ -29,6 +31,9 @@ import markets.alpaca.client.openapi.data.model.StockBar;
 import markets.alpaca.client.openapi.data.model.StockHistoricalFeed;
 import markets.alpaca.client.openapi.data.model.StockLatestFeed;
 import markets.alpaca.client.openapi.data.model.StockSnapshotsRespSingle;
+import markets.alpaca.client.openapi.trading.api.AssetsApi;
+import markets.alpaca.client.openapi.trading.model.AssetClass;
+import markets.alpaca.client.openapi.trading.model.Assets;
 import markets.alpaca.client.ws.StockSource;
 import markets.alpaca.client.ws.model.StockTrade;
 import org.slf4j.Logger;
@@ -43,6 +48,7 @@ public class AlpacaClient {
     private static final LocalDate EARLIEST_DATA = LocalDate.of(2016, 1, 1);
 
     private final AlpacaConverter alpacaConverter;
+    private final AssetsApi assets;
     private final StockApi stocks;
     private final StockHistoricalFeed historicalFeed;
     private final StockLatestFeed latestFeed;
@@ -51,6 +57,7 @@ public class AlpacaClient {
     @Inject
     public AlpacaClient(
             AlpacaConverter alpacaConverter,
+            AssetsApi assets,
             StockApi stocks,
             StockHistoricalFeed historicalFeed,
             StockLatestFeed latestFeed,
@@ -58,6 +65,7 @@ public class AlpacaClient {
             StockSource stockSource) {
 
         this.alpacaConverter = alpacaConverter;
+        this.assets = assets;
         this.stocks = stocks;
         this.historicalFeed = historicalFeed;
         this.latestFeed = latestFeed;
@@ -67,6 +75,13 @@ public class AlpacaClient {
     @PreDestroy
     public void disconnect() {
         this.priceStream.disconnect();
+    }
+
+    @CacheResult(cacheName = "instruments")
+    public List<Instrument> getInstruments() {
+        log.info("Alpaca API: Request assets");
+        List<Assets> result = call(() -> assets.getV2Assets("active", AssetClass.US_EQUITY.getValue(), null, null));
+        return result.stream().<Instrument>map(alpacaConverter::toAsset).toList();
     }
 
     @CacheResult(cacheName = "candles")
@@ -130,13 +145,25 @@ public class AlpacaClient {
     }
 
     private static <T> T call(Symbol symbol, Callable<T> call) {
+        return call(() -> {
+            try {
+                return call.call();
+            } catch (ApiException e) {
+                if (e.getCode() == 404) {
+                    throw DomainExceptions.createSymbolNotFound(symbol);
+                }
+                throw e;
+            }
+        });
+    }
+
+    private static <T> T call(Callable<T> call) {
         try {
             return call.call();
+        } catch (CoreException e) {
+            throw e;
         } catch (Exception e) {
-            if (e instanceof ApiException apiException && apiException.getCode() == 404) {
-                throw DomainExceptions.createSymbolNotFound(symbol);
-            }
-            log.error("Alpaca API: Request failed for symbol {}: {}", symbol, e.getMessage());
+            log.error("Alpaca API: Request failed: {}", e.getMessage());
             throw new ProviderException("Alpaca API request failed", e);
         }
     }

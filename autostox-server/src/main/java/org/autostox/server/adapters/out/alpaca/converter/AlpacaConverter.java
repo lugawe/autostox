@@ -8,6 +8,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import org.autostox.core.domain.exception.DomainExceptions;
+import org.autostox.core.domain.instrument.Asset;
 import org.autostox.core.domain.instrument.Symbol;
 import org.autostox.core.domain.marketdata.Candle;
 import org.autostox.core.domain.marketdata.CandleSeries;
@@ -17,6 +18,7 @@ import org.autostox.core.domain.money.Currency;
 
 import markets.alpaca.client.openapi.data.model.StockBar;
 import markets.alpaca.client.openapi.data.model.StockSnapshotsRespSingle;
+import markets.alpaca.client.openapi.trading.model.Assets;
 
 /** Alpaca prices are always USD, since no other currency is requested. */
 @ApplicationScoped
@@ -24,6 +26,11 @@ public class AlpacaConverter {
 
     @Inject
     public AlpacaConverter() {}
+
+    public Asset toAsset(Assets asset) {
+        String exchange = asset.getExchange() != null ? asset.getExchange().getValue() : null;
+        return new Asset(null, new Symbol(asset.getSymbol()), asset.getName(), exchange, Currency.USD);
+    }
 
     public String toTimeframe(Interval interval) {
         return switch (interval) {
