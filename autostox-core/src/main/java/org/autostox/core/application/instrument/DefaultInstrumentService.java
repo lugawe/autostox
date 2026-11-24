@@ -1,7 +1,6 @@
 package org.autostox.core.application.instrument;
 
 import java.time.Clock;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -29,11 +28,11 @@ public final class DefaultInstrumentService implements InstrumentService {
     }
 
     @Override
-    public List<Instrument> findInstruments(String query) {
+    public List<Instrument> findInstruments(String query, long limit) {
 
         logger.debug("findInstruments {}", query);
 
-        List<Instrument> instruments = instrumentProvider.findInstruments(query);
+        List<Instrument> instruments = instrumentProvider.findInstruments(query, limit);
 
         eventPublisher.publish(new InstrumentsFoundEvent(UUID.randomUUID(), clock.instant(), query, instruments));
 

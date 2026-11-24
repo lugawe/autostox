@@ -6,5 +6,5 @@ import org.autostox.core.domain.instrument.Instrument;
 
 public interface InstrumentProvider {
 
-    List<Instrument> findInstruments(String query);
+    List<Instrument> findInstruments(String query, long limit);
 }
