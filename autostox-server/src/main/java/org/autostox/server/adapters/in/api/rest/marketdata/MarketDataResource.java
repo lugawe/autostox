@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.MediaType;
 import org.autostox.server.adapters.in.api.json.marketdata.JsonCandleSeries;
 import org.autostox.server.adapters.in.api.json.marketdata.JsonInterval;
 import org.autostox.server.adapters.in.api.json.marketdata.JsonQuote;
-import org.autostox.server.adapters.in.api.rest.marketdata.service.RestInstrumentService;
+import org.autostox.server.adapters.in.api.rest.marketdata.service.RestMarketDataService;
 
 import io.smallrye.common.annotation.Blocking;
 import io.smallrye.common.annotation.RunOnVirtualThread;
@@ -17,16 +17,16 @@ import io.smallrye.mutiny.Multi;
 import org.jboss.resteasy.reactive.RestStreamElementType;
 
 @RunOnVirtualThread
-@Path("/instruments")
+@Path("/marketdata")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class InstrumentResource {
+public class MarketDataResource {
 
-    private final RestInstrumentService restInstrumentService;
+    private final RestMarketDataService restMarketDataService;
 
     @Inject
-    public InstrumentResource(RestInstrumentService restInstrumentService) {
-        this.restInstrumentService = restInstrumentService;
+    public MarketDataResource(RestMarketDataService restMarketDataService) {
+        this.restMarketDataService = restMarketDataService;
     }
 
     @GET
@@ -38,14 +38,14 @@ public class InstrumentResource {
             @QueryParam("end") LocalDate end,
             @QueryParam("limit") @DefaultValue("30") long limit) {
 
-        return restInstrumentService.getCandles(symbol, interval, start, end, limit);
+        return restMarketDataService.getCandles(symbol, interval, start, end, limit);
     }
 
     @GET
     @Path("/{symbol}/quote")
     public JsonQuote getQuote(@PathParam("symbol") String symbol) {
 
-        return restInstrumentService.getQuote(symbol);
+        return restMarketDataService.getQuote(symbol);
     }
 
     @GET
@@ -55,6 +55,6 @@ public class InstrumentResource {
     @Blocking
     public Multi<JsonQuote> streamQuotes(@PathParam("symbol") String symbol) {
 
-        return restInstrumentService.streamQuotes(symbol);
+        return restMarketDataService.streamQuotes(symbol);
     }
 }

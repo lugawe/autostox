@@ -1,4 +1,4 @@
-package org.autostox.server.adapters.in.api.mcp.marketdata.service;
+package org.autostox.server.adapters.in.api.rest.marketdata.service;
 
 import java.time.LocalDate;
 
@@ -15,14 +15,16 @@ import org.autostox.server.adapters.in.api.json.marketdata.JsonCandleSeries;
 import org.autostox.server.adapters.in.api.json.marketdata.JsonInterval;
 import org.autostox.server.adapters.in.api.json.marketdata.JsonQuote;
 
+import io.smallrye.mutiny.Multi;
+
 @ApplicationScoped
-public class McpInstrumentService {
+public class RestMarketDataService {
 
     private final JsonConverter jsonConverter;
     private final MarketDataService marketDataService;
 
     @Inject
-    public McpInstrumentService(JsonConverter jsonConverter, MarketDataService marketDataService) {
+    public RestMarketDataService(JsonConverter jsonConverter, MarketDataService marketDataService) {
         this.jsonConverter = jsonConverter;
         this.marketDataService = marketDataService;
     }
@@ -43,5 +45,12 @@ public class McpInstrumentService {
         Quote result = marketDataService.getQuote(new Symbol(symbol));
 
         return jsonConverter.toJsonQuote(result);
+    }
+
+    public Multi<JsonQuote> streamQuotes(String symbol) {
+
+        return Multi.createFrom()
+                .publisher(marketDataService.streamQuotes(new Symbol(symbol)))
+                .map(jsonConverter::toJsonQuote);
     }
 }

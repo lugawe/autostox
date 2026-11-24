@@ -5,6 +5,10 @@ import java.math.BigDecimal;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import org.autostox.core.domain.instrument.Asset;
+import org.autostox.core.domain.instrument.Etf;
+import org.autostox.core.domain.instrument.Instrument;
+import org.autostox.core.domain.instrument.Stock;
 import org.autostox.core.domain.marketdata.Candle;
 import org.autostox.core.domain.marketdata.CandleSeries;
 import org.autostox.core.domain.marketdata.Direction;
@@ -12,6 +16,10 @@ import org.autostox.core.domain.marketdata.Interval;
 import org.autostox.core.domain.marketdata.Quote;
 import org.autostox.core.domain.money.Currency;
 import org.autostox.server.adapters.in.api.json.error.JsonError;
+import org.autostox.server.adapters.in.api.json.instrument.JsonAsset;
+import org.autostox.server.adapters.in.api.json.instrument.JsonEtf;
+import org.autostox.server.adapters.in.api.json.instrument.JsonInstrument;
+import org.autostox.server.adapters.in.api.json.instrument.JsonStock;
 import org.autostox.server.adapters.in.api.json.marketdata.JsonCandle;
 import org.autostox.server.adapters.in.api.json.marketdata.JsonCandleSeries;
 import org.autostox.server.adapters.in.api.json.marketdata.JsonDirection;
@@ -25,6 +33,23 @@ public class JsonConverter {
 
     @Inject
     public JsonConverter() {}
+
+    public JsonInstrument toJsonInstrument(Instrument instrument) {
+
+        JsonInstrument result = switch (instrument) {
+            case Stock _ -> new JsonStock();
+            case Etf _ -> new JsonEtf();
+            case Asset _ -> new JsonAsset();
+        };
+
+        result.setIsin(instrument.isin() != null ? instrument.isin().value() : null);
+        result.setSymbol(instrument.symbol().value());
+        result.setName(instrument.name());
+        result.setExchange(instrument.exchange());
+        result.setCurrency(toJsonCurrency(instrument.currency()));
+
+        return result;
+    }
 
     public JsonQuote toJsonQuote(Quote quote) {
 
