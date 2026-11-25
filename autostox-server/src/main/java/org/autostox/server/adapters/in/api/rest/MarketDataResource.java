@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.MediaType;
 import org.autostox.server.adapters.in.api.json.marketdata.JsonCandleSeries;
 import org.autostox.server.adapters.in.api.json.marketdata.JsonInterval;
 import org.autostox.server.adapters.in.api.json.marketdata.JsonQuote;
-import org.autostox.server.adapters.in.api.service.ApiMarketDataService;
+import org.autostox.server.adapters.in.api.json.service.JsonMarketDataService;
 
 import io.smallrye.common.annotation.Blocking;
 import io.smallrye.common.annotation.RunOnVirtualThread;
@@ -22,11 +22,11 @@ import org.jboss.resteasy.reactive.RestStreamElementType;
 @Produces(MediaType.APPLICATION_JSON)
 public class MarketDataResource {
 
-    private final ApiMarketDataService apiMarketDataService;
+    private final JsonMarketDataService jsonMarketDataService;
 
     @Inject
-    public MarketDataResource(ApiMarketDataService apiMarketDataService) {
-        this.apiMarketDataService = apiMarketDataService;
+    public MarketDataResource(JsonMarketDataService jsonMarketDataService) {
+        this.jsonMarketDataService = jsonMarketDataService;
     }
 
     @GET
@@ -38,14 +38,14 @@ public class MarketDataResource {
             @QueryParam("end") LocalDate end,
             @QueryParam("limit") @DefaultValue("30") long limit) {
 
-        return apiMarketDataService.getCandles(symbol, interval, start, end, limit);
+        return jsonMarketDataService.getCandles(symbol, interval, start, end, limit);
     }
 
     @GET
     @Path("/{symbol}/quote")
     public JsonQuote getQuote(@PathParam("symbol") String symbol) {
 
-        return apiMarketDataService.getQuote(symbol);
+        return jsonMarketDataService.getQuote(symbol);
     }
 
     @GET
@@ -55,6 +55,6 @@ public class MarketDataResource {
     @Blocking
     public Multi<JsonQuote> streamQuotes(@PathParam("symbol") String symbol) {
 
-        return apiMarketDataService.streamQuotes(symbol);
+        return jsonMarketDataService.streamQuotes(symbol);
     }
 }

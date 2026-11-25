@@ -1,4 +1,4 @@
-package org.autostox.server.adapters.in.api.service;
+package org.autostox.server.adapters.in.api.json.service;
 
 import java.util.List;
 
@@ -11,13 +11,13 @@ import org.autostox.server.adapters.in.api.json.converter.JsonConverter;
 import org.autostox.server.adapters.in.api.json.instrument.JsonInstrument;
 
 @ApplicationScoped
-public class ApiInstrumentService {
+public class JsonInstrumentService {
 
     private final JsonConverter jsonConverter;
     private final InstrumentService instrumentService;
 
     @Inject
-    public ApiInstrumentService(JsonConverter jsonConverter, InstrumentService instrumentService) {
+    public JsonInstrumentService(JsonConverter jsonConverter, InstrumentService instrumentService) {
         this.jsonConverter = jsonConverter;
         this.instrumentService = instrumentService;
     }

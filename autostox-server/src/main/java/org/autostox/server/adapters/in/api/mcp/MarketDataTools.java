@@ -8,8 +8,8 @@ import jakarta.inject.Singleton;
 import org.autostox.server.adapters.in.api.json.marketdata.JsonCandleSeries;
 import org.autostox.server.adapters.in.api.json.marketdata.JsonInterval;
 import org.autostox.server.adapters.in.api.json.marketdata.JsonQuote;
+import org.autostox.server.adapters.in.api.json.service.JsonMarketDataService;
 import org.autostox.server.adapters.in.api.mcp.interceptor.CoreErrors;
-import org.autostox.server.adapters.in.api.service.ApiMarketDataService;
 
 import io.quarkiverse.mcp.server.Tool;
 import io.quarkiverse.mcp.server.ToolArg;
@@ -18,11 +18,11 @@ import io.quarkiverse.mcp.server.ToolArg;
 @CoreErrors
 public class MarketDataTools {
 
-    private final ApiMarketDataService apiMarketDataService;
+    private final JsonMarketDataService jsonMarketDataService;
 
     @Inject
-    public MarketDataTools(ApiMarketDataService apiMarketDataService) {
-        this.apiMarketDataService = apiMarketDataService;
+    public MarketDataTools(JsonMarketDataService jsonMarketDataService) {
+        this.jsonMarketDataService = jsonMarketDataService;
     }
 
     @Tool(
@@ -43,7 +43,7 @@ public class MarketDataTools {
             @ToolArg(description = "Last day to include (ISO date, e.g. 2026-01-31)", required = false) LocalDate end,
             @ToolArg(description = "Maximum number of candles", defaultValue = "30") long limit) {
 
-        return apiMarketDataService.getCandles(symbol, interval, start, end, limit);
+        return jsonMarketDataService.getCandles(symbol, interval, start, end, limit);
     }
 
     @Tool(
@@ -59,6 +59,6 @@ public class MarketDataTools {
             @ToolArg(description = "Ticker symbol of the instrument, e.g. a stock (AAPL) or an ETF (QQQ)")
                     String symbol) {
 
-        return apiMarketDataService.getQuote(symbol);
+        return jsonMarketDataService.getQuote(symbol);
     }
 }

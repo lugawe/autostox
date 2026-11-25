@@ -1,4 +1,4 @@
-package org.autostox.server.adapters.in.api.service;
+package org.autostox.server.adapters.in.api.json.service;
 
 import java.math.BigDecimal;
 
@@ -12,13 +12,13 @@ import org.autostox.server.adapters.in.api.json.money.JsonCurrency;
 import org.autostox.server.adapters.in.api.json.money.JsonExchangeRate;
 
 @ApplicationScoped
-public class ApiMoneyService {
+public class JsonMoneyService {
 
     private final JsonConverter jsonConverter;
     private final ExchangeRateService exchangeRateService;
 
     @Inject
-    public ApiMoneyService(JsonConverter jsonConverter, ExchangeRateService exchangeRateService) {
+    public JsonMoneyService(JsonConverter jsonConverter, ExchangeRateService exchangeRateService) {
         this.jsonConverter = jsonConverter;
         this.exchangeRateService = exchangeRateService;
     }

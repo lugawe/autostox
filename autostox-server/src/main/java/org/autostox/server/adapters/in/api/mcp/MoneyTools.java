@@ -5,8 +5,8 @@ import jakarta.inject.Singleton;
 
 import org.autostox.server.adapters.in.api.json.money.JsonCurrency;
 import org.autostox.server.adapters.in.api.json.money.JsonExchangeRate;
+import org.autostox.server.adapters.in.api.json.service.JsonMoneyService;
 import org.autostox.server.adapters.in.api.mcp.interceptor.CoreErrors;
-import org.autostox.server.adapters.in.api.service.ApiMoneyService;
 
 import io.quarkiverse.mcp.server.Tool;
 import io.quarkiverse.mcp.server.ToolArg;
@@ -15,11 +15,11 @@ import io.quarkiverse.mcp.server.ToolArg;
 @CoreErrors
 public class MoneyTools {
 
-    private final ApiMoneyService apiMoneyService;
+    private final JsonMoneyService jsonMoneyService;
 
     @Inject
-    public MoneyTools(ApiMoneyService apiMoneyService) {
-        this.apiMoneyService = apiMoneyService;
+    public MoneyTools(JsonMoneyService jsonMoneyService) {
+        this.jsonMoneyService = jsonMoneyService;
     }
 
     @Tool(
@@ -35,6 +35,6 @@ public class MoneyTools {
             @ToolArg(description = "Source currency (ISO code, e.g. USD)") JsonCurrency from,
             @ToolArg(description = "Target currency (ISO code, e.g. EUR)") JsonCurrency to) {
 
-        return apiMoneyService.getExchangeRate(from, to);
+        return jsonMoneyService.getExchangeRate(from, to);
     }
 }
